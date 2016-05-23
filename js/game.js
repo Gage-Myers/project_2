@@ -18,22 +18,21 @@ PIXI.loader
 
 function ready() {
 	
-	var standing = new PIXI.Sprite(PIXI.Texture.fromFrame("Knight.png"));
-	standing.scale.x = 4;
-	standing.scale.y = 4;
+	var standing = new PIXI.Sprite(PIXI.Texture.fromFrame("knight1.png"));
+	standing.scale.x = 2;
+	standing.scale.y = 2;
 	standing.position.set(50,200);
 	stage.addChild(standing);
 
 	var frames = [];
-	for (var i = 1; i < 3; i++) {
-		frames.push(PIXI.Texture.fromFrame('Walk' + i + '.png'));
+	for (var i = 2; i < 5; i++) {
+		frames.push(PIXI.Texture.fromFrame('knight' + i + '.png'));
 	}
 
 	walk = new PIXI.extras.MovieClip(frames);
-	walk.scale.set(4,4);
+	walk.scale.set(2,2);
 	walk.position.set(200,200);
 	walk.animationSpeed = 0.1;
-	walk.play();
 	stage.addChild(walk);
 }
 
@@ -41,3 +40,5 @@ function animate() {
 	requestAnimationFrame(animate);
 	renderer.render(stage);
 }
+
+animate();
