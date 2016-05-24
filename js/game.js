@@ -2,18 +2,33 @@
   Project 2: Knight Rider
   Author: Gage Myers
 */
+
+// Global variables
 var standing;
 var walk;
 var music;
+var winner;
 var doors = 0;
+
+// Loading Sprites and Text
 var horse = new PIXI.Sprite(PIXI.Texture.fromImage("../assets/horse.png"));
 var landscape = new PIXI.Sprite(PIXI.Texture.fromImage("../assets/Landscape.png"));
 var gameport = document.getElementById('gameport');
 var headline = new PIXI.Text('Knight Rider', {font: '24px Arial', fill: 0xffffff, align: 'center'});
 var instructions = new PIXI.Text('Click anywhere to continue', {font: '16px Arial', fill: 0xffffff, align: 'center'});
+var guide = new PIXI.Text('Search the Labyrinth for your lost horse', {font: '16px Arial', fill: 0xffffff, align: 'center'});
 var win = new PIXI.Text('You found your horse!', {font: '24px Arial', fill: 0x0, align: 'center'});
+var cont = new PIXI.Text('Exit Wherever you like', {font: '24px Arial', fill: 0x0, align: 'center'});
 var renderer = PIXI.autoDetectRenderer(400,400, {backgroundColor: 0x0});
 gameport.appendChild(renderer.view);
+
+// Setting up end Text
+var head = new PIXI.Text('You win', {font: '24px Arial', fill: 0xffffff, align: 'center'});
+var credit = new PIXI.Text('All assets created by: Gage Myers', {font: '16px Arial', fill: 0xffffff, align: 'center'});
+var winText = new PIXI.Text('You found your horse!', {font: '24px Arial', fill: 0xffffff, align: 'center'});
+head.position.set(50,50);
+credit.position.set(50,300);
+winText.position.set(50,100);
 
 PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
 
@@ -29,12 +44,15 @@ function ready() {
 	standing.scale.set(4,4);
 	standing.position.set(60,100);
     headline.position.set(150,50);
-    instructions.position.set(120,300);
+    guide.position.set(80,300);
+    instructions.position.set(120,350);
 	stage.addChild(standing);
     stage.addChild(headline);
     stage.addChild(instructions);
+    stage.addChild(guide);
     music = PIXI.audioManager.getAudio("../assets/soundtrack.wav");
     win.position.y = 100;
+    cont.position.y = 300;
 }
 
 function mouseHandler(e) {
@@ -66,11 +84,12 @@ function doorCheck() {
 
 function keyDownEventHandler(e) {
 
-    if (doors >= 2) {
+    if (doors == 10) {
         horse.scale.set(2,2);
         horse. position.set(200,120);
         stage.addChild(horse);
         stage.addChild(win);
+        stage.addChild(cont);
     }
 
     if (doorCheck()) {
@@ -79,20 +98,29 @@ function keyDownEventHandler(e) {
     }
 
     // W: Move Up
-    if (e.keyCode == 87) {
+    if (!winner && e.keyCode == 87) {
         createjs.Tween.get(walk.position).to({x: walk.position.x, y: walk.position.y - 30}, 1000);
     }
     // A: Move Left
-    if (e.keyCode == 65) {
+    if (!winner && e.keyCode == 65) {
         createjs.Tween.get(walk.position).to({x: walk.position.x - 30, y: walk.position.y}, 1000);
     }
     // S: Move Down
-    if (e.keyCode == 83) {
+    if (!winner && e.keyCode == 83) {
         createjs.Tween.get(walk.position).to({x: walk.position.x, y: walk.position.y + 30}, 1000);
     }
     // D: Move Right
-    if (e.keyCode == 68) {
+    if (!winner && e.keyCode == 68) {
         createjs.Tween.get(walk.position).to({x: walk.position.x + 30, y: walk.position.y}, 1000);
+    }
+
+    // Go to end screen
+    if (doors > 10) {
+        stage = new PIXI.Container();
+        stage.addChild(head);
+        stage.addChild(credit);
+        stage.addChild(winText);
+        stage.addChild(standing);
     }
 }
 
