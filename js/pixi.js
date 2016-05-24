@@ -6271,7 +6271,7 @@ Resource._xhrTypeMap = {
     'tsx':      Resource.XHR_RESPONSE_TYPE.DOCUMENT,
     'svg':      Resource.XHR_RESPONSE_TYPE.DOCUMENT,
 
-    // images
+    // assets
     'gif':      Resource.XHR_RESPONSE_TYPE.BLOB,
     'png':      Resource.XHR_RESPONSE_TYPE.BLOB,
     'bmp':      Resource.XHR_RESPONSE_TYPE.BLOB,
@@ -18349,7 +18349,7 @@ function SpriteRenderer(renderer)
     this.vertByteSize = this.vertSize * 4;
 
     /**
-     * The number of images in the SpriteBatch before it flushes.
+     * The number of assets in the SpriteBatch before it flushes.
      *
      * @member {number}
      */
