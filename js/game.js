@@ -11,6 +11,7 @@ var landscape = new PIXI.Sprite(PIXI.Texture.fromImage("../assets/Landscape.png"
 var gameport = document.getElementById('gameport');
 var headline = new PIXI.Text('Knight Rider', {font: '24px Arial', fill: 0xffffff, align: 'center'});
 var instructions = new PIXI.Text('Click anywhere to continue', {font: '16px Arial', fill: 0xffffff, align: 'center'});
+var win = new PIXI.Text('You found your horse!', {font: '24px Arial', fill: 0x0, align: 'center'});
 var renderer = PIXI.autoDetectRenderer(400,400, {backgroundColor: 0x0});
 gameport.appendChild(renderer.view);
 
@@ -33,6 +34,7 @@ function ready() {
     stage.addChild(headline);
     stage.addChild(instructions);
     music = PIXI.audioManager.getAudio("../assets/soundtrack.wav");
+    win.position.y = 100;
 }
 
 function mouseHandler(e) {
@@ -57,17 +59,23 @@ function mouseHandler(e) {
 
 function doorCheck() {
     return ((walk.position.x < 30 && walk.position.y > 100 && walk.position.y < 150) ||
-    (walk.position.x > 340 && walk.position.y > 100 && walk.position.y < 150) ||
+    (walk.position.x > 310 && walk.position.y > 100 && walk.position.y < 150) ||
     (walk.position.y < 30 && walk.position.x > 100 && walk.position.x < 150) ||
     (walk.position.y > 290 && walk.position.x > 100 && walk.position.x < 150));
 }
 
 function keyDownEventHandler(e) {
 
+    if (doors >= 2) {
+        horse.scale.set(2,2);
+        horse. position.set(200,120);
+        stage.addChild(horse);
+        stage.addChild(win);
+    }
+
     if (doorCheck()) {
         walk.position.set(120,120);
         doors++;
-
     }
 
     // W: Move Up
